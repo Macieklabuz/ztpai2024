@@ -13,4 +13,7 @@ data class UserDetails(
 
     @Column(name = "surname", nullable = false)
     var surname: String="",
+
+    @OneToOne(mappedBy = "UserDetails")
+    var user: User? = null
 )

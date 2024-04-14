@@ -21,8 +21,12 @@ data class Task(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_assigned_by", nullable = false)
-    var assignedBy: User
+    var assignedBy: User? = null,
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    var users: MutableList<User> = mutableListOf(),
 
+    @OneToMany(mappedBy = "task",fetch = FetchType.LAZY)
+    var tasksImages: MutableList<TaskImages> = mutableListOf()
 )
 
