@@ -4,6 +4,7 @@ import LoginPage from './Pages/LoginPage';
 import HomePage from "./Pages/HomePage";
 import RegisterPage from "./Pages/RegisterPage";
 import TasksPage from "./Pages/TasksPage";
+import AgendaPage from "./Pages/AgendaPage";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/tasks" element={<TasksPage />} />
+            <Route path="/agenda" element={<AgendaPage />} />
         </Routes>
       </Router>
   );
