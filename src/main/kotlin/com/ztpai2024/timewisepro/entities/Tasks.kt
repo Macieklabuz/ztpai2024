@@ -8,5 +8,5 @@ object Tasks : IntIdTable() {
     val title = varchar("title", 255)
     val description = varchar("description", 255)
     val dueDate = datetime(name = "due_date")
-    val idAssignedBy = reference("id", Users)
+    val idAssignedBy = reference("id_assigned_by", Users)
 }

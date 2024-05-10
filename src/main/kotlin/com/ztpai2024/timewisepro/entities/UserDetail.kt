@@ -7,7 +7,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 class UserDetail (id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<UserDetail>(UsersDetails)
 
-    val name by UsersDetails.name
-    val surname by UsersDetails.surname
+    var name by UsersDetails.name
+    var surname by UsersDetails.surname
 
 }

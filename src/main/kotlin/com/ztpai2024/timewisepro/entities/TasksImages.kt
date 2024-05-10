@@ -4,5 +4,5 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 
 object TasksImages : IntIdTable() {
     val image = varchar("image", 255)
-    val taskId = reference("id", Tasks)
+    val taskId = reference("task_id", Tasks)
 }
