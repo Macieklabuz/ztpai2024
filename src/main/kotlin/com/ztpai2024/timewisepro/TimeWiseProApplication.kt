@@ -8,18 +8,37 @@ import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.springframework.boot.CommandLineRunner
+import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
-class TimeWiseProApplication
+class TimeWiseProApplication{
+	@Bean
+	fun init() = CommandLineRunner {
+		transaction {
+			SchemaUtils.run {
+				create(
+					Users,
+					Tasks,
+					TasksImages,
+					UsersDetails,
+					UsersTasks,
+				)
+			}
+			commit()
+		}
+	}
+}
+
 
 fun main(args: Array<String>) {
-	runApplication<TimeWiseProApplication>(*args)
 
 	val db = Database.connect(
-		"jdbc:postgresql://localhost:5432/postgres",
+		"jdbc:postgresql://localhost:5433/postgres",
 		user = "postgres",
 		password = "admin")
 
+	runApplication<TimeWiseProApplication>(*args)
 
 }
 
