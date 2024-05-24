@@ -36,6 +36,12 @@ const NavLink = styled.a`
     }
 `;
 
+const handleLogout = () => {
+    console.log("Logging out");
+    localStorage.removeItem('token');
+    window.location.href = "/login";
+};
+
 const NavigationBar = () => {
     return (
         <NavBar>
@@ -43,12 +49,14 @@ const NavigationBar = () => {
                 <NavLink href="#">Home</NavLink>
             </LeftSection>
             <RightSection>
+                <NavLink href="/profile">Profile</NavLink>
                 <NavLink href="/agenda">Agenda</NavLink>
                 <NavLink href="/tasks">Tasks</NavLink>
-                <NavLink href="#">Logout</NavLink>
+                <NavLink href="#" onClick={handleLogout}>Logout</NavLink>
             </RightSection>
         </NavBar>
     );
 };
 
 export default NavigationBar;
+

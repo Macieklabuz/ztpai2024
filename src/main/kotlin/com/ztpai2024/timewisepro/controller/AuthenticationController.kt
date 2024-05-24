@@ -6,6 +6,7 @@ import com.ztpai2024.timewisepro.entities.User
 import com.ztpai2024.timewisepro.repositories.UserDto
 import com.ztpai2024.timewisepro.services.AuthenticationService
 import com.ztpai2024.timewisepro.services.JwtService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.web.bind.annotation.PostMapping
@@ -28,13 +29,13 @@ class AuthenticationController(
     }
 
     @PostMapping("/login")
-    fun authenticate(@RequestBody loginUserDto: LoginUserDto?): ResponseEntity<LoginResponse> {
+    fun authenticate(@RequestBody loginUserDto: LoginUserDto?): ResponseEntity<out Any> {
         val authenticatedUser: User? = authenticationService.authenticate(loginUserDto!!)
 
         val jwtToken = if (authenticatedUser != null) {
             jwtService.generateToken(authenticatedUser as UserDetails)
         } else {
-            null
+            return ResponseEntity<String>("Access Denied", HttpStatus.FORBIDDEN)
         }
 
         val loginResponse = LoginResponse().apply {

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+
 const TaskListContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom:700px;
+    margin-bottom: 700px;
 `;
 
 const TaskListText = styled.p`
@@ -19,17 +20,25 @@ const TaskContainer = styled.div`
     justify-content: space-between;
     padding: 10px;
     border-bottom: 1px solid #ccc;
+    background-color: rgba(0, 0, 0,0.1);
+    border-radius: 10px;
 `;
 
 const TaskInfo = styled.div`
     display: flex;
-    align-items: center;
+    flex-direction: column;
 `;
 
 const TaskText = styled.p`
     margin: 0;
-    font-size: 1rem;
-    margin-right: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+`;
+
+const TaskDescription = styled.p`
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
 `;
 
 const TaskDate = styled.span`
@@ -37,9 +46,16 @@ const TaskDate = styled.span`
     color: #888;
 `;
 
+const TaskImage = styled.img`
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+`;
+
 const TaskActions = styled.div`
     display: flex;
     align-items: center;
+    margin-top: 100px;
 `;
 
 const ActionButton = styled.button`
@@ -53,26 +69,29 @@ const ActionButton = styled.button`
     &:hover {
         color: ${({ completed }) => (completed ? '#aaa' : '#666')};
     }
+
+    &:not(:last-child) {
+        margin-right: 10px;
+    }
 `;
 
-const Task = ({ text, date, completed, onDelete, onToggleComplete }) => {
+const Task = ({ id, title, description, dueDate, image, completed, onDelete, onToggleComplete }) => {
     const [isCompleted, setIsCompleted] = useState(completed);
 
     const handleDelete = () => {
-        onDelete();
+        onDelete(id);
     };
 
     const handleToggleComplete = () => {
         setIsCompleted(!isCompleted);
-        onToggleComplete();
+        onToggleComplete(id);
     };
 
     return (
-        <>
         <TaskContainer>
             <TaskInfo>
-                <TaskText>{text}</TaskText>
-                <TaskDate>{date}</TaskDate>
+                <TaskText>{title}</TaskText>
+                {image && <TaskImage src={image} alt="Task" />}
             </TaskInfo>
             <TaskActions>
                 <ActionButton onClick={handleToggleComplete} completed={isCompleted}>
@@ -86,11 +105,21 @@ const Task = ({ text, date, completed, onDelete, onToggleComplete }) => {
                 </ActionButton>
             </TaskActions>
         </TaskContainer>
-            <TaskListContainer>
-                <TaskListText>This is your task list:</TaskListText>
-            </TaskListContainer>
-            </>
     );
 };
 
-export default Task;
+const TaskList = ({ tasks, onDelete, onToggleComplete }) => (
+    <TaskListContainer>
+        <TaskListText>This is your task list:</TaskListText>
+        {tasks.map(task => (
+            <Task
+                key={task.id}
+                {...task}
+                onDelete={onDelete}
+                onToggleComplete={onToggleComplete}
+            />
+        ))}
+    </TaskListContainer>
+);
+
+export default TaskList;

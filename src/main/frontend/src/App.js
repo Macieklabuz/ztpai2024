@@ -5,6 +5,7 @@ import HomePage from "./Pages/HomePage";
 import RegisterPage from "./Pages/RegisterPage";
 import TasksPage from "./Pages/TasksPage";
 import AgendaPage from "./Pages/AgendaPage";
+import ProfilePage from "./Pages/ProfilePage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/tasks" element={<TasksPage />} />
             <Route path="/agenda" element={<AgendaPage />} />
+            <Route path="/profile" element={<ProfilePage/>} />
         </Routes>
       </Router>
   );

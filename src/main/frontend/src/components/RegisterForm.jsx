@@ -1,100 +1,143 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import styles from '../css/RegisterForm.module.css'; // Zakładam, że używasz modułów CSS
 
-const StyledForm = styled.form`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
-const InputField = styled.div`
-    margin-bottom: 15px;
-    width: 100%;
-`;
-
-const Input = styled.input`
-    width: calc(100% - 20px);
-    padding: 15px;
-    font-size: 1.2rem;
-`;
-
-const Button = styled.button`
-    width: 104%;
-    padding: 15px;
-    font-size: 1.2rem;
-    background-color: #2FD1C5;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    margin-left: auto;
-`;
-
-const Spacing = styled.div`
-    margin-top: 10px;
-`;
-
-const RegisterForm = () => {
+function RegisterForm() {
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
     const [email, setEmail] = useState('');
-    const [firstName, setFirstName] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
+    const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            // Obsługa wysyłania formularza rejestracji
-            console.log('Email:', email);
-            console.log('First Name:', firstName);
-            console.log('Password:', password);
-            console.log('Confirm Password:', confirmPassword);
-        } catch (error) {
-            console.error('Registration error:', error);
-            // Obsługa błędów rejestracji
+    const [errorMessageEmail, setErrorMessageEmail] = useState('');
+    const [errorMessagePassword, setErrorMessagePassword] = useState('');
+    const [errorMessageRepeat, setErrorMessageRepeat] = useState('');
+
+    const [errorEmail, setErrorEmail] = useState(false);
+    const [errorPassword, setErrorPassword] = useState(false);
+    const [errorRepeat, setErrorRepeat] = useState(false);
+
+    const [errorMessage, setErrorMessage] = useState('');
+
+    function isValidEmail() {
+        return /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i.test(email);
+    }
+
+    function arePasswordsTheSame() {
+        return password === repeatPassword;
+    }
+
+    function isPasswordStrongEnough() {
+        return password.length > 5;
+    }
+
+    const submitHandler = async (event) => {
+        event.preventDefault();
+        let hasError = false;
+
+        if (!isValidEmail()) {
+            setErrorMessageEmail('Incorrect email');
+            setErrorEmail(true);
+            hasError = true;
+        } else {
+            setErrorMessageEmail('');
+            setErrorEmail(false);
         }
-    };
+
+        if (!isPasswordStrongEnough()) {
+            setErrorMessagePassword('Password must be longer than 5 characters');
+            setErrorPassword(true);
+            hasError = true;
+        } else {
+            setErrorMessagePassword('');
+            setErrorPassword(false);
+        }
+
+        if (!arePasswordsTheSame()) {
+            setErrorMessageRepeat('The passwords are not the same');
+            setErrorRepeat(true);
+            hasError = true;
+        } else {
+            setErrorMessageRepeat('');
+            setErrorRepeat(false);
+        }
+
+        if (hasError) {
+            return;
+        }
+
+        try {
+            const response = await axios.post("http://localhost:8080/auth/signup", {
+                email,
+                password,
+                name,
+                surname
+            });
+
+            localStorage.setItem('register', "Registered successfully");
+            navigate("/login");
+        } catch (error) {
+            setErrorMessage("Registration failed, try later");
+        }
+    }
 
     return (
-        <StyledForm onSubmit={handleSubmit}>
-            <InputField>
-                <label htmlFor="email" className="field_name">Your Email</label>
-                <Input
-                    type="text"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-            </InputField>
-            <InputField>
-                <label htmlFor="firstName" className="field_name">Your First Name</label>
-                <Input
-                    type="text"
-                    id="firstName"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                />
-            </InputField>
-            <InputField>
-                <label htmlFor="password" className="field_name">Password</label>
-                <Input
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </InputField>
-            <InputField>
-                <label htmlFor="confirmPassword" className="field_name">Confirm Password</label>
-                <Input
-                    type="password"
-                    id="confirmPassword"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-            </InputField>
-            <Button type="submit">Register</Button>
-        </StyledForm>
+        <form className={styles.registerForm} onSubmit={submitHandler}>
+            {errorMessage && <b className={styles.errorMessage}>{errorMessage}</b>}
+
+            {errorMessageEmail && <b className={styles.errorMessage}>{errorMessageEmail}</b>}
+            <input
+                className={`${styles.textInputRegister} ${errorEmail ? styles.error : ''}`}
+                type='text'
+                name='email'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder='Email'
+            />
+
+            {errorMessagePassword && <b className={styles.errorMessage}>{errorMessagePassword}</b>}
+            <input
+                className={`${styles.textInputRegister} ${errorPassword ? styles.error : ''}`}
+                type='password'
+                name='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder='Password'
+            />
+
+            {errorMessageRepeat && <b className={styles.errorMessage}>{errorMessageRepeat}</b>}
+            <input
+                className={`${styles.textInputRegister} ${errorRepeat ? styles.error : ''}`}
+                type='password'
+                name='repeatPassword'
+                value={repeatPassword}
+                onChange={(e) => setRepeatPassword(e.target.value)}
+                placeholder='Repeat Password'
+            />
+
+            <input
+                className={styles.textInputRegister}
+                type='text'
+                name='name'
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder='Name'
+            />
+
+            <input
+                className={styles.textInputRegister}
+                type='text'
+                name='surname'
+                value={surname}
+                onChange={(e) => setSurname(e.target.value)}
+                placeholder='Surname'
+            />
+
+            <button className={styles.registerButton} type='submit'>Register</button>
+        </form>
     );
-};
+}
 
 export default RegisterForm;

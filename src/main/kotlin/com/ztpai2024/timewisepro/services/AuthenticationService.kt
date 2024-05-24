@@ -46,7 +46,7 @@ class AuthenticationService(
         } catch (e: AuthenticationException) {
             // Obsługa ogólnego wyjątku uwierzytelniania
             println("Wystąpił błąd podczas uwierzytelniania: ${e.message}")
-            return userRepository.findByEmail(input.email)
+            return null
         }
         return userRepository.findByEmail(input.email)
 

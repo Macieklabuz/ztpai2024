@@ -24,8 +24,8 @@ const LogoImage = styled.img`
 const LoginHeader = styled.h1`
     color: Black;
     font-size: 32px;
-    margin-bottom: 20px;
-    margin-left: 720px;
+    margin-bottom: 10px;
+    margin-left: 690px;
 `;
 
 function LoginPage() {
@@ -33,7 +33,7 @@ function LoginPage() {
         <>
         <TopBar></TopBar>
         <LoginContainer>
-            <LoginHeader>Sing in</LoginHeader>
+            <LoginHeader>Sign in</LoginHeader>
             <div style={{ display: 'flex', alignItems: 'center' }}>
                 <LogoImage src={Logo} alt="Logo" />
                 <LoginForm />

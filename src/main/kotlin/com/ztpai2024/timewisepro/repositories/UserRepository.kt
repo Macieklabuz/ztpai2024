@@ -1,7 +1,6 @@
 package com.ztpai2024.timewisepro.repositories
 
 import com.ztpai2024.timewisepro.entities.User
-import com.ztpai2024.timewisepro.entities.Users
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.stereotype.Repository
 
@@ -44,14 +43,14 @@ class UserRepository {
 
 data class UserDto(
     val id: Int,
-    val email: String,
-    val name: String,
-    val surname: String
+    val userEmail: String,
+    val userName: String,
+    val userSurname: String
 )
 
 fun User.toDto() = UserDto(
     id = id.value,
-    name = userDetails.name,
-    surname = userDetails.surname,
-    email = userEmail,
+    userName = userDetails.name,
+    userSurname = userDetails.surname,
+    userEmail = userEmail,
 )
