@@ -27,7 +27,7 @@ const TasksPage = () => {
                     console.error('Unauthorised');
                     return;
                 }
-                const response = await axios.get('http://localhost:8080/users/tasks',{
+                const response = await axios.get('http://localhost:8080/users/tasks/me',{
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
