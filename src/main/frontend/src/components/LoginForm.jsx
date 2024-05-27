@@ -30,6 +30,9 @@ const LoginForm = () => {
             }
         }
     }
+    const goToRegistration = () => {
+        window.location.href = "/register";
+    };
 
     return (
         <form className={styles.loginForm} onSubmit={handleSubmit}>
@@ -51,6 +54,10 @@ const LoginForm = () => {
                 placeholder='Password'
             />
             <button className={styles.logInButton} type='submit'>Log in</button>
+            <div className="mainText">Don't have an account?</div>
+            <button className={styles.logInButton} type="button" onClick={goToRegistration}>
+                Sign In
+            </button>
         </form>
     );
 };

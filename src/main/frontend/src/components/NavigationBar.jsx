@@ -46,7 +46,7 @@ const NavigationBar = () => {
     return (
         <NavBar>
             <LeftSection>
-                <NavLink href="#">Home</NavLink>
+                <NavLink href="/">Home</NavLink>
             </LeftSection>
             <RightSection>
                 <NavLink href="/profile">Profile</NavLink>

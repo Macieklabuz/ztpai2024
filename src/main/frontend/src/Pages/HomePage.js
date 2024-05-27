@@ -53,6 +53,13 @@ const TabContainer = styled.div`
     justify-content: center;
 `;
 
+const goToTask = () => {
+    window.location.href = "/tasks";
+};
+const goToAgenda = () => {
+    window.location.href = "/agenda";
+};
+
 const HomePage = () => {
     return (
         <>
@@ -64,8 +71,8 @@ const HomePage = () => {
                         <LogoImage src={logo} alt="Logo" />
                     </LogoContainer>
                     <TabContainer>
-                        <Button>Agenda</Button>
-                        <Button>To Do List</Button>
+                        <Button onClick={goToAgenda}>Agenda </Button>
+                        <Button onClick={goToTask}>To Do List </Button>
                     </TabContainer>
                 </ContentContainer>
             </HomeContainer>
