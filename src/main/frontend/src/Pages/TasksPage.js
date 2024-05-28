@@ -1,5 +1,3 @@
-// TasksPage.js
-
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -12,16 +10,16 @@ const TaskListContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 700px;
+    width: 45%;
+    margin-right: 2%;
 `;
 
 const PageContainer = styled.div`
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     height: 90.5vh;
 `;
+
 const TaskListText = styled.p`
     font-size: 1.2rem;
     font-weight: bold;
@@ -34,29 +32,89 @@ const TaskContainer = styled.div`
     justify-content: space-between;
     padding: 10px;
     border-bottom: 1px solid #ccc;
-    background-color: rgba(0, 0, 0,0.1);
+    background-color: rgba(0, 0, 0, 0.1);
     border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+`;
+
+const TaskDetailContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    margin: 20px;
+    width: 45%;
+`;
+
+const TaskImage = styled.img`
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 20px;
+`;
+
+const TaskTitle = styled.h2`
+    font-size: 2rem;
+    margin-bottom: 10px;
+`;
+
+const TaskDescription = styled.p`
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 20px;
+`;
+
+const TaskDate = styled.span`
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 20px;
+`;
+
+const ActionButton = styled.button`
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: ${({ completed }) => (completed ? '#aaa' : '#333')};
+    transition: color 0.3s;
+
+    &:hover {
+        color: ${({ completed }) => (completed ? '#aaa' : '#666')};
+    }
+
+    &:not(:last-child) {
+        margin-right: 10px;
+    }
 `;
 
 const TasksPage = () => {
     const [tasks, setTasks] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('')
+    const [searchQuery, setSearchQuery] = useState('');
     const [filteredTasks, setFilteredTasks] = useState([]);
+    const [selectedTask, setSelectedTask] = useState(null);
 
     useEffect(() => {
         const fetchTasks = async () => {
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
-                    console.error('Unauthorised');
+                    console.error('Unauthorized');
                     return;
                 }
-                const response = await axios.get('http://localhost:8080/users/tasks/me',{
+                const response = await axios.get('http://localhost:8080/users/tasks/me', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setTasks(response.data);
+
+                // Ensure response data is an array
+                const tasksData = Array.isArray(response.data) ? response.data : [];
+                setTasks(tasksData);
+                setFilteredTasks(tasksData); // Set initial filtered tasks
             } catch (error) {
                 console.error('Error fetching tasks:', error);
             }
@@ -69,6 +127,7 @@ const TasksPage = () => {
         try {
             await axios.delete(`/api/tasks/${taskId}`);
             setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+            setFilteredTasks(prevTasks => prevTasks.filter(task => task.id !== taskId)); // Update filtered tasks
         } catch (error) {
             console.error('Error deleting task:', error);
         }
@@ -82,6 +141,9 @@ const TasksPage = () => {
             setTasks(prevTasks =>
                 prevTasks.map(t => (t.id === taskId ? updatedTask : t))
             );
+            setFilteredTasks(prevTasks =>
+                prevTasks.map(t => (t.id === taskId ? updatedTask : t)) // Update filtered tasks
+            );
         } catch (error) {
             console.error('Error toggling task completion:', error);
         }
@@ -94,27 +156,47 @@ const TasksPage = () => {
         setFilteredTasks(filtered);
     }, [searchQuery, tasks]);
 
-
-    const handleSearchChange = (e) =>{
+    const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
+    const handleTaskClick = (task) => {
+        setSelectedTask(task);
+    };
 
     return (
         <>
             <NavigationBar />
             <PageContainer>
-                <SearchBar placeholder="Search..." value={searchQuery} onChange={handleSearchChange} />
                 <TaskListContainer>
-                <TaskListText>This is your task list:</TaskListText>
-                    {filteredTasks.map(task=>(
-                        <TaskComponent
-                        key = {task.id}
-                        image={task.image}
-                        title={task.title}
-                        />
-                        ))}
+                    <SearchBar placeholder="Search..." value={searchQuery} onChange={handleSearchChange} />
+                    <TaskListText>This is your task list:</TaskListText>
+                    {filteredTasks.map(task => (
+                        <TaskContainer key={task.id} onClick={() => handleTaskClick(task)}>
+                            <TaskComponent
+                                key={task.id}
+                                image={task.image}
+                                title={task.title}
+                            />
+                        </TaskContainer>
+                    ))}
                 </TaskListContainer>
+                {selectedTask && (
+                    <TaskDetailContainer>
+                        {selectedTask.image && <TaskImage src={selectedTask.image} alt="Task" />}
+                        <TaskTitle>{selectedTask.title}</TaskTitle>
+                        <TaskDescription>{selectedTask.description}</TaskDescription>
+                        <TaskDate>Due Date: {new Date(selectedTask.dueDate).toLocaleDateString()}</TaskDate>
+                        <div>
+                            <ActionButton onClick={() => handleToggleTaskComplete(selectedTask.id)} completed={selectedTask.completed}>
+                                {selectedTask.completed ? 'Undo' : 'Done'}
+                            </ActionButton>
+                            <ActionButton onClick={() => handleDeleteTask(selectedTask.id)}>
+                                Delete
+                            </ActionButton>
+                        </div>
+                    </TaskDetailContainer>
+                )}
             </PageContainer>
             <BottomBar />
         </>
