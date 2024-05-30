@@ -15,7 +15,7 @@ const CalendarContainer = styled.div`
     width: 300px;
 `;
 
-const AgendaPage = () => {
+const AddTaskPage = () => {
     const [agendaTasks, setAgendaTasks] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date()); // Dodany stan wybranej daty
 
@@ -27,8 +27,8 @@ const AgendaPage = () => {
         <>
             <NavigationBar />
             <PageContainer>
-                {/* Usunięty lub zakomentowany komponent AgendaForm */}
-                {/* <AgendaForm onSubmit={handleSubmitTask} /> */}
+                {/* Usunięty lub zakomentowany komponent AddTaskForm */}
+                {/* <AddTaskForm onSubmit={handleSubmitTask} /> */}
                 <CalendarContainer>
                     <Calendar value={selectedDate} onChange={handleDateChange} />
                 </CalendarContainer>
@@ -48,4 +48,4 @@ const AgendaPage = () => {
     );
 };
 
-export default AgendaPage;
+export default AddTaskPage;

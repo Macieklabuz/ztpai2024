@@ -4,7 +4,7 @@ import LoginPage from './Pages/LoginPage';
 import HomePage from "./Pages/HomePage";
 import RegisterPage from "./Pages/RegisterPage";
 import TasksPage from "./Pages/TasksPage";
-import AgendaPage from "./Pages/AgendaPage";
+import AddTaskPage from "./Pages/AddTaskPage";
 import ProfilePage from "./Pages/ProfilePage";
 
 
@@ -16,7 +16,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/tasks" element={<TasksPage />} />
-            <Route path="/agenda" element={<AgendaPage />} />
+            <Route path="/addTask" element={<AddTaskPage />} />
             <Route path="/profile" element={<ProfilePage/>} />
         </Routes>
       </Router>

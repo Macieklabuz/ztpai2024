@@ -1,4 +1,4 @@
-// AgendaForm.jsx
+// AddTaskForm.jsx
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
@@ -42,7 +42,7 @@ const Button = styled.button`
     cursor: pointer;
 `;
 
-const AgendaForm = ({ onSubmit }) => {
+const AddTaskForm = ({ onSubmit }) => {
     const [task, setTask] = useState('');
     const [date, setDate] = useState('');
 
@@ -82,4 +82,4 @@ const AgendaForm = ({ onSubmit }) => {
 };
 
 
-export default AgendaForm;
+export default AddTaskForm;

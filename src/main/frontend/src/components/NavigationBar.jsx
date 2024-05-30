@@ -50,7 +50,7 @@ const NavigationBar = () => {
             </LeftSection>
             <RightSection>
                 <NavLink href="/profile">Profile</NavLink>
-                <NavLink href="/agenda">Agenda</NavLink>
+                <NavLink href="/addTask">Add Task</NavLink>
                 <NavLink href="/tasks">Tasks</NavLink>
                 <NavLink href="#" onClick={handleLogout}>Logout</NavLink>
             </RightSection>

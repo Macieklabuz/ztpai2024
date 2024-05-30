@@ -56,8 +56,8 @@ const TabContainer = styled.div`
 const goToTask = () => {
     window.location.href = "/tasks";
 };
-const goToAgenda = () => {
-    window.location.href = "/agenda";
+const goToAddTask = () => {
+    window.location.href = "/addTask";
 };
 
 const HomePage = () => {
@@ -71,8 +71,8 @@ const HomePage = () => {
                         <LogoImage src={logo} alt="Logo" />
                     </LogoContainer>
                     <TabContainer>
-                        <Button onClick={goToAgenda}>Agenda </Button>
-                        <Button onClick={goToTask}>To Do List </Button>
+                        <Button onClick={goToAddTask}>Add Task </Button>
+                        <Button onClick={goToTask}>Tasks </Button>
                     </TabContainer>
                 </ContentContainer>
             </HomeContainer>
