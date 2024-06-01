@@ -17,10 +17,9 @@ class TimeWiseProApplication{
 	fun init() = CommandLineRunner {
 		transaction {
 			SchemaUtils.run {
-				create(
+				createMissingTablesAndColumns(
 					Users,
 					Tasks,
-					TasksImages,
 					UsersDetails,
 					UsersTasks,
 				)

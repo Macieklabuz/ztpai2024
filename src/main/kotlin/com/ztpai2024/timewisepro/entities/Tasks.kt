@@ -9,4 +9,5 @@ object Tasks : IntIdTable() {
     val description = varchar("description", 255)
     val dueDate = datetime(name = "due_date")
     val idAssignedBy = reference("id_assigned_by", Users)
+    val image = varchar("image", 255).default("")
 }

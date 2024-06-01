@@ -17,9 +17,6 @@ class Task (id: EntityID<Int>) : IntEntity(id) {
 
     var user by User referencedOn Tasks.idAssignedBy
 
-    var image: String?= transaction {
-        TasksImages.select(TasksImages.image).where {taskId eq id.value}.firstOrNull()?.let{
-            it[TasksImages.image]
-        }
-    }
+    var image: String by Tasks.image
 }
+

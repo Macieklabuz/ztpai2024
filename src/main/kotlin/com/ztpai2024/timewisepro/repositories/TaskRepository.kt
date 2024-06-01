@@ -1,10 +1,19 @@
 package com.ztpai2024.timewisepro.repositories
 
 import com.ztpai2024.timewisepro.controller.TaskDTO
+import com.ztpai2024.timewisepro.dtos.TaskDto
 import com.ztpai2024.timewisepro.entities.Task
 import com.ztpai2024.timewisepro.entities.Tasks
+import com.ztpai2024.timewisepro.entities.TasksImages
+import com.ztpai2024.timewisepro.entities.User
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.springframework.stereotype.Repository
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.exposed.sql.insert
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
+
 
 @Repository
 class TaskRepository {
@@ -31,18 +40,26 @@ class TaskRepository {
             throw e
         }
     }
-    fun addTask(TaskData: TaskDTO){
-        try{
-            transaction{
+    fun addTask(taskData: TaskDto) {
+        try {
+            transaction {
+                val authentication: Authentication = SecurityContextHolder.getContext().authentication
+                val currentUser: User = authentication.principal as User
+                val dueDate = LocalDateTime.parse(taskData.dueDate)
+
+
                 val newTask = Task.new {
-                    title = TaskData.title
-                    description = TaskData.description
-                    image = TaskData.image
-                    dueDate = TaskData.dueDate
+                    title = taskData.title
+                    description = taskData.description
+                    this.dueDate = dueDate
+                    user = currentUser
+                    image = taskData.taskImage
                 }
-            }
-        }
-        catch (e:Exception){
+
+
+
+                }
+            } catch (e:Exception){
             println("Error adding task ${e.message}")
 
             throw e

@@ -32,7 +32,7 @@ const TaskTitle = styled.p`
 const TaskComponent = ({ image, title, onClick }) => {
     return (
         <TaskContainer onClick={onClick}>
-            <TaskImage src={image} alt="Task" />
+            <TaskImage src={`http://localhost:8080/uploads/tasks/${image}`} alt="Task" />
             <TaskTitle>{title}</TaskTitle>
         </TaskContainer>
     );
