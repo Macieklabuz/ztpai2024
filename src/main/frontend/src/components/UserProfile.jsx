@@ -19,6 +19,7 @@ const ProfileContainer = styled.div`
 const ProfileItem = styled.div`
     margin-bottom: 15px;
     font-size: 18px;
+    
 `;
 
 const Label = styled.span`
@@ -71,7 +72,7 @@ const UserProfile = () => {
                     <Label>Email:</Label> {userEmail}
                 </ProfileItem>
             </ProfileContainer>
-            <BottomBar />
+
         </>
     );
 };

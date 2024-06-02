@@ -9,6 +9,10 @@ const SearchInput = styled.input`
     border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;
+    @media(max-width: 700px){
+        width: 150px;
+        height: 30px;
+    }
     
     `;
 

@@ -13,6 +13,7 @@ const HomeContainer = styled.div`
     align-items: center;
     justify-content: center;
     height: 90.5vh;
+    
 `;
 
 const Title = styled.h1`
@@ -24,15 +25,24 @@ const ContentContainer = styled.div`
     display: flex;
     align-items: center;
     margin-bottom: 40px;
+    @media(max-width: 700px){
+        flex-direction: column;
+    }
 `;
 
 const LogoContainer = styled.div`
     margin-right: 100px; // Zmniejszenie odstępu między logiem a treścią
+    @media(max-width: 700px){
+        margin-right: 0;
+    }
 `;
 
 const LogoImage = styled.img`
     width: 350px; // Zwiększenie szerokości loga
     height: auto;
+    @media(max-width: 700px){
+        width: 200px;
+    }
 `;
 
 const ImageContainer = styled.div`

@@ -16,7 +16,6 @@ const AddTaskPage = () => {
     return (
         <>
             <NavigationBar />
-            <BottomBar/>
         <PageContainer>
             <AddTaskForm />
         </PageContainer>

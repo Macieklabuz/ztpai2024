@@ -5,6 +5,7 @@ import NavigationBar from '../components/NavigationBar';
 import BottomBar from '../components/BottomBar';
 import SearchBar from "../components/SearchBar";
 import TaskComponent from "../components/TaskComponent";
+import {deleteDataWithToken} from "../Utilities/AppUtils";
 
 const TaskListContainer = styled.div`
     display: flex;
@@ -12,6 +13,16 @@ const TaskListContainer = styled.div`
     align-items: center;
     width: 45%;
     margin-right: 2%;
+`;
+
+const TaskList = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    margin-right: 2%;
+    max-height: 70vh;
+    overflow-y: auto;
 `;
 
 const PageContainer = styled.div`
@@ -51,8 +62,8 @@ const TaskDetailContainer = styled.div`
 `;
 
 const TaskImage = styled.img`
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     object-fit: cover;
     margin-bottom: 20px;
 `;
@@ -125,7 +136,7 @@ const TasksPage = () => {
 
     const handleDeleteTask = async (taskId) => {
         try {
-            await axios.delete(`/api/tasks/${taskId}`);
+            await deleteDataWithToken(`http://localhost:8080/users/tasks/${taskId}`);
             setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
             setFilteredTasks(prevTasks => prevTasks.filter(task => task.id !== taskId)); // Update filtered tasks
         } catch (error) {
@@ -171,6 +182,7 @@ const TasksPage = () => {
                 <TaskListContainer>
                     <SearchBar placeholder="Search..." value={searchQuery} onChange={handleSearchChange} />
                     <TaskListText>This is your task list:</TaskListText>
+                    <TaskList>
                     {filteredTasks.map(task => (
                         <TaskContainer key={task.id} onClick={() => handleTaskClick(task)}>
                             <TaskComponent
@@ -180,17 +192,16 @@ const TasksPage = () => {
                             />
                         </TaskContainer>
                     ))}
+                    </TaskList>
                 </TaskListContainer>
                 {selectedTask && (
                     <TaskDetailContainer>
-                        {selectedTask.image && <TaskImage src={selectedTask.image} alt="Task" />}
+                        {selectedTask.image &&
+                            <TaskImage src={`http://localhost:8080/uploads/tasks/${selectedTask.image}`} alt="Task" />}
                         <TaskTitle>{selectedTask.title}</TaskTitle>
                         <TaskDescription>{selectedTask.description}</TaskDescription>
                         <TaskDate>Due Date: {new Date(selectedTask.dueDate).toLocaleDateString()}</TaskDate>
                         <div>
-                            <ActionButton onClick={() => handleToggleTaskComplete(selectedTask.id)} completed={selectedTask.completed}>
-                                {selectedTask.completed ? 'Undo' : 'Done'}
-                            </ActionButton>
                             <ActionButton onClick={() => handleDeleteTask(selectedTask.id)}>
                                 Delete
                             </ActionButton>

@@ -34,10 +34,16 @@ class TaskController (
 
         val currentUser: User = authentication.principal as User
 
-        val id:Int = currentUser.id.value
+        val id: Int = currentUser.id.value
 
-        taskRepository.findTasks(id).map { it.toDto()
-
+        if (currentUser.userType == "Admin") {
+            taskRepository.findAll().map {
+                it.toDto()
+            }
+        } else {
+            taskRepository.findTasks(id).map {
+                it.toDto()
+            }
         }
     }
     @PostMapping("/add")
