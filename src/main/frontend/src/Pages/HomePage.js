@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import agendaIcon from '../agenda-icon.png';
-import todoListIcon from '../tasks-icon.png';
-import logo from '../logo.png'; // Dodane logo
+import logo from '../logo.png';
 import BottomBar from '../components/BottomBar';
 import NavigationBar from "../components/NavigationBar";
 import Button from "../components/Button";
@@ -18,7 +16,7 @@ const HomeContainer = styled.div`
 
 const Title = styled.h1`
     font-size: 2rem;
-    margin-bottom: 70px; // Zwiększenie odstępu od tytułu
+    margin-bottom: 70px;
 `;
 
 const ContentContainer = styled.div`
@@ -31,14 +29,14 @@ const ContentContainer = styled.div`
 `;
 
 const LogoContainer = styled.div`
-    margin-right: 100px; // Zmniejszenie odstępu między logiem a treścią
+    margin-right: 100px; 
     @media(max-width: 700px){
         margin-right: 0;
     }
 `;
 
 const LogoImage = styled.img`
-    width: 350px; // Zwiększenie szerokości loga
+    width: 350px; 
     height: auto;
     @media(max-width: 700px){
         width: 200px;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import styles from '../css/RegisterForm.module.css'; // Zakładam, że używasz modułów CSS
+import styles from '../css/RegisterForm.module.css';
 
 function RegisterForm() {
     const [name, setName] = useState('');

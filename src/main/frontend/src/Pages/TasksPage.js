@@ -122,10 +122,10 @@ const TasksPage = () => {
                     }
                 });
 
-                // Ensure response data is an array
+
                 const tasksData = Array.isArray(response.data) ? response.data : [];
                 setTasks(tasksData);
-                setFilteredTasks(tasksData); // Set initial filtered tasks
+                setFilteredTasks(tasksData);
             } catch (error) {
                 console.error('Error fetching tasks:', error);
             }

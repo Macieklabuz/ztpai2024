@@ -71,7 +71,6 @@ const TaskDetailPage = ({ task }) => {
     const handleDeleteTask = async () => {
         try {
             await axios.delete(`/api/tasks/${task.id}`);
-            // Redirect or show a message that the task was deleted
         } catch (error) {
             console.error('Error deleting task:', error);
         }

@@ -20,7 +20,7 @@ fun Task.toDto(): TaskDto {
     return TaskDto(
         id.value,
         title,
-        image ?: "", // Zakładając, że image może być nullable
+        image ?: "",
         description,
         formattedDueDate,
         user.id.value

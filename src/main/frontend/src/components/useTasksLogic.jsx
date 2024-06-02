@@ -10,21 +10,21 @@ const useTasksLogic = () => {
     const [filter, setFilter] = useState('all'); // 'all', 'completed', 'inprogress'
 
     const handleDeleteTask = (taskId) => {
-        // Logika usuwania tasku
+
         console.log('Usuwanie tasku o ID:', taskId);
-        // Tutaj dodaj swoją logikę usuwania zadania z listy
+
     };
 
     const handleToggleTaskComplete = (taskId) => {
-        // Logika zmiany stanu wykonania tasku
+
         console.log('Zmiana stanu wykonania tasku o ID:', taskId);
-        // Tutaj dodaj swoją logikę zmiany stanu wykonania zadania
+
     };
 
     const handleToggleTaskInProgress = (taskId) => {
-        // Logika zmiany stanu zadania w trakcie wykonywania
+
         console.log('Task w trakcie wykonywania o ID:', taskId);
-        // Tutaj dodaj swoją logikę do przełączania stanu zadania w trakcie wykonywania
+
     };
 
     const filteredTasks = tasks.filter(task => {
