@@ -50,7 +50,7 @@ class AuthenticationController(
 }
 
 class LoginResponse {
-    // Getters and setters...
+
     var token: String? = null
 
     var expiresIn: Long = 0
